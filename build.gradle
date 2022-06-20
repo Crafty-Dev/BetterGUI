@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+}
+
+group 'de.crafty'
+version '0.1-DEV'
+
+repositories {
+  maven {
+    url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+
+    content {
+      includeGroup 'org.bukkit'
+      includeGroup 'org.spigotmc'
+    }
+  }
+
+  maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+  maven { url = 'https://oss.sonatype.org/content/repositories/central' }
+  mavenLocal()
+}
+
+dependencies {
+  compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
+}
+
+tasks.register('buildAPI') {
+  dependsOn tasks.build
+  jar {
+    exclude('de/crafty/bettergui/plugin')
+    archiveName("${project.name}-API-${project.version}.jar")
+
+    processResources.exclude('plugin.yml')
+  }
+  group = 'build'
+}
+
+
+
+processResources {
+  def props = [version: version]
+  inputs.properties props
+  filteringCharset 'UTF-8'
+  filesMatching('plugin.yml') {
+    expand props
+  }
+}

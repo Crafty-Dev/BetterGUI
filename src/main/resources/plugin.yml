@@ -1,0 +1,6 @@
+name: BetterGUIPlugin
+version: ${version}
+author: Crafty
+main: de.crafty.bettergui.plugin.BetterGUIPlugin
+
+api-version: 1.18
